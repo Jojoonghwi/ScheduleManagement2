@@ -23,7 +23,6 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final ScheduleUserRepository scheduleUserRepository;
 
-
     public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, ScheduleUserRepository scheduleUserRepository) {
         this.scheduleRepository = scheduleRepository;
         this.userRepository = userRepository;
@@ -41,7 +40,6 @@ public class ScheduleService {
         scheduleUser.setSchedule(saveSchedule);
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         scheduleUser.setUser(user);
-
 
         scheduleUserRepository.save(scheduleUser);
 
@@ -78,11 +76,9 @@ public class ScheduleService {
             scheduleUserRepository.save(scheduleUser);
         }
 
-
         schedule.update(requestDto);
 
         return id;
-
     }
 
     public Long deleteSchedule(Long id) {

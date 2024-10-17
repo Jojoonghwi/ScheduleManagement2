@@ -19,9 +19,6 @@ public class Schedule extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "user_id", nullable = true)
-//    private Long user_id;
-
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -37,25 +34,12 @@ public class Schedule extends Timestamped {
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<ScheduleUser> ScheduleUserList = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "author", nullable = false)
-//    private User author;
-
-//    @ManyToMany
-//    @JoinTable(name = "write", // 중간 테이블 생성
-//            joinColumns = @JoinColumn(name = "schedule_id"), // 현재 위치인 schedule Entity 에서 중간 테이블로 조인할 컬럼 설정
-//            inverseJoinColumns = @JoinColumn(name = "user_id")) // 반대 위치인 User Entity 에서 중간 테이블로 조인할 컬럼 설정
-//    private List<User> userList = new ArrayList<>();
-
     public Schedule(ScheduleRequestDto requestDto) {
-        //this.author = author;
-        //this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
 
     public void update(ScheduleRequestDto requestDto) {
-        //this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

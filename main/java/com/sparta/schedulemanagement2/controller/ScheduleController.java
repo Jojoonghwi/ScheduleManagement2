@@ -32,7 +32,7 @@ public class ScheduleController {
         return scheduleService.getSchedules(page-1, size, "modifiedAt", false);
     }
 
-    //관리자 업데이트
+    //일정 수정 or 관리자 업데이트
     @PutMapping( {"{scheduleId}", "{scheduleId}/{optionalId}"})
     public Long updateSchedule(@PathVariable Long scheduleId,
                                @PathVariable(required = false) Long optionalId,

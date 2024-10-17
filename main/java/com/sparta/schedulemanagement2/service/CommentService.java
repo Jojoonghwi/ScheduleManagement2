@@ -65,7 +65,6 @@ public class CommentService {
         comment.update(requestDto);
 
         return id;
-
     }
 
     public Long deleteComment(Long id) {
