@@ -1,2 +1,2 @@
 # **1. API명세 작성**
-src
+![img.png](img.png) src
