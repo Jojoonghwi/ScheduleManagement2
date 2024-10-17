@@ -2,8 +2,10 @@ package com.sparta.schedulemanagement2.controller;
 
 import com.sparta.schedulemanagement2.dto.CommentRequestDto;
 import com.sparta.schedulemanagement2.dto.CommentResponseDto;
+import com.sparta.schedulemanagement2.dto.ScheduleResponseDto;
 import com.sparta.schedulemanagement2.service.CommentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +25,11 @@ public class CommentController {
     }
 
     @GetMapping("")
-    public List<CommentResponseDto> getComments() {
-        return commentService.getComments();
+    public Page<CommentResponseDto> getComments(
+            @RequestParam("page") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        return commentService.getComments(page-1, size, "modifiedAt", false);
     }
 
     @PutMapping("{id}")

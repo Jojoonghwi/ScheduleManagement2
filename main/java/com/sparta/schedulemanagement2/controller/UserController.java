@@ -1,9 +1,11 @@
 package com.sparta.schedulemanagement2.controller;
 
+import com.sparta.schedulemanagement2.dto.ScheduleResponseDto;
 import com.sparta.schedulemanagement2.dto.UserRequestDto;
 import com.sparta.schedulemanagement2.dto.UserResponseDto;
 import com.sparta.schedulemanagement2.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,14 @@ public class UserController {
     }
 
     @GetMapping("")
-    public List<UserResponseDto> getComments() {
-        return userService.getUser();
+    public Page<UserResponseDto> getComments(
+            @RequestParam("page") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        return userService.getUser(page-1, size, "modifiedAt", false);
     }
+
+
 
     @PutMapping("{id}")
     public Long updateUser(@PathVariable Long id, @RequestBody UserRequestDto requestDto) {

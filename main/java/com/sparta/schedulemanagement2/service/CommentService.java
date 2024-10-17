@@ -2,11 +2,17 @@ package com.sparta.schedulemanagement2.service;
 
 import com.sparta.schedulemanagement2.dto.CommentRequestDto;
 import com.sparta.schedulemanagement2.dto.CommentResponseDto;
+import com.sparta.schedulemanagement2.dto.UserResponseDto;
 import com.sparta.schedulemanagement2.entity.Comment;
 import com.sparta.schedulemanagement2.entity.Schedule;
+import com.sparta.schedulemanagement2.entity.User;
 import com.sparta.schedulemanagement2.repository.CommentRepository;
 import com.sparta.schedulemanagement2.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,9 +45,16 @@ public class CommentService {
         return CommentRepository;
     }
 
-    public List<CommentResponseDto> getComments() {
-        // DB 조회
-        return commentRepository.findAllByOrderByModifiedAtDesc().stream().map(CommentResponseDto::new).toList();
+    public Page<CommentResponseDto> getComments(int page, int size, String sortBy, boolean isAsc) {
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Comment> comments = commentRepository.findAll(pageable);
+
+        return comments.map(CommentResponseDto::new);
     }
 
     @Transactional

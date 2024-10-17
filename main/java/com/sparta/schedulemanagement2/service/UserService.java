@@ -1,5 +1,6 @@
 package com.sparta.schedulemanagement2.service;
 
+import com.sparta.schedulemanagement2.dto.ScheduleResponseDto;
 import com.sparta.schedulemanagement2.dto.UserRequestDto;
 import com.sparta.schedulemanagement2.dto.UserResponseDto;
 import com.sparta.schedulemanagement2.entity.Schedule;
@@ -8,6 +9,10 @@ import com.sparta.schedulemanagement2.entity.User;
 import com.sparta.schedulemanagement2.repository.ScheduleUserRepository;
 import com.sparta.schedulemanagement2.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,13 +38,16 @@ public class UserService {
         return responseDto;
     }
 
-//    private ScheduleUser createScheduleUser() {
-//
-//    }
+    public Page<UserResponseDto> getUser(int page, int size, String sortBy, boolean isAsc) {
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
 
+        Pageable pageable = PageRequest.of(page, size, sort);
 
-    public List<UserResponseDto> getUser() {
-        return userRepository.findAllByOrderByModifiedAtDesc().stream().map(UserResponseDto::new).toList();
+        Page<User> Users = userRepository.findAll(pageable);
+
+        return Users.map(UserResponseDto::new);
     }
 
     @Transactional
